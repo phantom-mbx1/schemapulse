@@ -26,6 +26,7 @@ Bad database migrations cause downtime, table locks, blocked writes, and data lo
 | **PG005** | Medium | `ADD COLUMN ... NOT NULL` without safe `DEFAULT` | Add with a constant `DEFAULT` or backfill + constraint validation |
 | **PG006** | High | `ADD FOREIGN KEY` without `NOT VALID` | Add with `NOT VALID` first, then run `VALIDATE CONSTRAINT` |
 | **PG007** | Medium | `ALTER COLUMN ... SET NOT NULL` | Validate via `CHECK ... NOT VALID` / staged rollout to limit lock impact |
+| **PG008** | High | `DROP INDEX` without `CONCURRENTLY` | Use `DROP INDEX CONCURRENTLY` outside a transaction block |
 
 ## Quick Start
 

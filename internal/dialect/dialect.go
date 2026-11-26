@@ -5,6 +5,7 @@ type StatementKind string
 const (
 	KindOther              StatementKind = "OTHER"
 	KindCreateIndex        StatementKind = "CREATE_INDEX"
+	KindDropIndex          StatementKind = "DROP_INDEX"
 	KindDropTable          StatementKind = "DROP_TABLE"
 	KindDropSchema         StatementKind = "DROP_SCHEMA"
 	KindAlterTable         StatementKind = "ALTER_TABLE"

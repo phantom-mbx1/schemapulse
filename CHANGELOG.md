@@ -5,6 +5,7 @@ All notable changes to **SchemaPulse** are documented in this file.
 ## [0.2.0-dev] - Unreleased
 
 ### Added
+- Added rule `PG008` (`DROP INDEX` without `CONCURRENTLY` ACCESS EXCLUSIVE lock warning).
 - Added rule `PG007` (`ALTER COLUMN ... SET NOT NULL` table scan lock warning).
 - Added `schemapulse rules` command to list built-in PostgreSQL rules and severities.
 - Added `--only` and `--skip` flags to `schemapulse check`.

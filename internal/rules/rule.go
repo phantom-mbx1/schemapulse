@@ -33,5 +33,6 @@ func DefaultRules() []Rule {
 		NewPG005NotNullColumn(),
 		NewPG006NotValidForeignKey(),
 		NewPG007SetNotNull(),
+		NewPG008DropIndex(),
 	}
 }

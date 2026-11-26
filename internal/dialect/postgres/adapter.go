@@ -22,6 +22,7 @@ func (a *Adapter) Name() string {
 var (
 	whitespaceRe    = regexp.MustCompile(`\s+`)
 	createIndexRe   = regexp.MustCompile(`(?i)^CREATE\s+(UNIQUE\s+)?INDEX\s+(CONCURRENTLY\s+)?(?:IF\s+NOT\s+EXISTS\s+)?([A-Za-z0-9_."]+)\s+ON\s+(?:ONLY\s+)?([A-Za-z0-9_."]+)`)
+	dropIndexRe     = regexp.MustCompile(`(?i)^DROP\s+INDEX\s+(CONCURRENTLY\s+)?(?:IF\s+EXISTS\s+)?(.+?)(?:\s+(?:CASCADE|RESTRICT))?\s*;?$`)
 	dropTableRe     = regexp.MustCompile(`(?i)^DROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?(.+)`)
 	dropSchemaRe    = regexp.MustCompile(`(?i)^DROP\s+SCHEMA\s+(?:IF\s+EXISTS\s+)?(.+)`)
 	alterTableRe    = regexp.MustCompile(`(?i)^ALTER\s+TABLE\s+(?:IF\s+EXISTS\s+)?(?:ONLY\s+)?([A-Za-z0-9_."]+)\s+(.+)`)
@@ -309,6 +310,13 @@ func classifyStatement(filePath string, line int, rawSQL string, norm string) di
 		stmt.Kind = dialect.KindCreateIndex
 		stmt.Concurrent = strings.TrimSpace(m[2]) != ""
 		stmt.ObjectName = strings.Trim(m[4], "\"")
+		return stmt
+	}
+
+	if m := dropIndexRe.FindStringSubmatch(norm); len(m) > 0 {
+		stmt.Kind = dialect.KindDropIndex
+		stmt.Concurrent = strings.TrimSpace(m[1]) != ""
+		stmt.ObjectName = strings.Trim(strings.TrimSpace(m[2]), "\"")
 		return stmt
 	}
 
